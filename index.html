@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michael Rak — People Operations & Internal Tools</title>
+<meta name="description" content="People Operations leader who builds software. Full-stack internal tools, live people analytics, and automation that scales teams.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0b12;
+    --bg-soft:#10121d;
+    --card:#13162400;
+    --panel:#161a2b;
+    --panel-2:#1b2036;
+    --line:rgba(255,255,255,0.08);
+    --line-strong:rgba(255,255,255,0.16);
+    --text:#eef0f7;
+    --muted:#9aa0b8;
+    --faint:#6a708c;
+    --accent:#7c5cff;
+    --accent-2:#2dd4bf;
+    --accent-3:#ff7ac2;
+    --glow:rgba(124,92,255,0.45);
+    --radius:18px;
+    --maxw:1100px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* ambient background */
+  .aura{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+  .aura::before,.aura::after{content:"";position:absolute;border-radius:50%;filter:blur(120px);opacity:.5}
+  .aura::before{width:620px;height:620px;background:radial-gradient(circle,#7c5cff,transparent 65%);top:-180px;left:-120px;animation:float1 18s ease-in-out infinite}
+  .aura::after{width:560px;height:560px;background:radial-gradient(circle,#2dd4bf,transparent 65%);bottom:-200px;right:-140px;animation:float2 22s ease-in-out infinite}
+  @keyframes float1{50%{transform:translate(80px,60px) scale(1.1)}}
+  @keyframes float2{50%{transform:translate(-70px,-50px) scale(1.08)}}
+  .grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);
+    background:rgba(10,11,18,0.55);border-bottom:1px solid transparent;transition:.35s}
+  nav.scrolled{background:rgba(10,11,18,0.82);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:16px 26px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Sora';font-weight:800;letter-spacing:-.02em;font-size:1.05rem;display:flex;align-items:center;gap:10px}
+  .logo .dot{width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 0 14px var(--glow)}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.92rem;font-weight:500;transition:.2s;position:relative}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{padding:9px 18px;border-radius:999px;background:linear-gradient(135deg,var(--accent),#5b8cff);color:#fff!important;font-weight:600;box-shadow:0 6px 24px var(--glow)}
+  .nav-cta:hover{transform:translateY(-1px)}
+  .menu-btn{display:none;background:none;border:0;color:var(--text);font-size:1.5rem;cursor:pointer}
+  @media(max-width:760px){.nav-links{display:none}.menu-btn{display:block}}
+
+  /* HERO */
+  header.hero{min-height:100vh;display:flex;align-items:center;padding-top:90px;position:relative}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border:1px solid var(--line-strong);
+    border-radius:999px;font-size:.82rem;color:var(--muted);background:rgba(255,255,255,.03);margin-bottom:28px}
+  .badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 0 0 rgba(45,212,191,.6);animation:pulse 2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(45,212,191,0)}100%{box-shadow:0 0 0 0 rgba(45,212,191,0)}}
+  h1.title{font-family:'Sora';font-weight:800;letter-spacing:-.03em;line-height:1.04;
+    font-size:clamp(2.6rem,7vw,4.9rem);margin-bottom:24px}
+  h1.title .grad{background:linear-gradient(115deg,var(--accent) 10%,var(--accent-3) 50%,var(--accent-2) 95%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lede{font-size:clamp(1.05rem,2vw,1.32rem);color:var(--muted);max-width:640px;margin-bottom:38px}
+  .lede strong{color:var(--text);font-weight:600}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{padding:14px 26px;border-radius:12px;font-weight:600;font-size:.98rem;text-decoration:none;
+    display:inline-flex;align-items:center;gap:9px;transition:.25s;cursor:pointer;border:0}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#5b8cff);color:#fff;box-shadow:0 10px 30px var(--glow)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 38px var(--glow)}
+  .btn-ghost{background:rgba(255,255,255,.04);color:var(--text);border:1px solid var(--line-strong)}
+  .btn-ghost:hover{background:rgba(255,255,255,.09);transform:translateY(-2px)}
+
+  .stats{display:flex;gap:42px;margin-top:64px;flex-wrap:wrap}
+  .stat .n{font-family:'Sora';font-weight:800;font-size:2.1rem;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stat .l{color:var(--faint);font-size:.86rem;margin-top:2px}
+
+  /* SECTION */
+  section{padding:110px 0;position:relative}
+  .eyebrow{font-family:'JetBrains Mono';font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);margin-bottom:14px;display:block}
+  h2.sec{font-family:'Sora';font-weight:700;letter-spacing:-.025em;font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:18px;line-height:1.1}
+  .sec-intro{color:var(--muted);max-width:620px;font-size:1.05rem;margin-bottom:54px}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:50px;align-items:start}
+  @media(max-width:820px){.about-grid{grid-template-columns:1fr;gap:34px}}
+  .about-grid p{color:var(--muted);margin-bottom:18px;font-size:1.05rem}
+  .about-grid p strong{color:var(--text);font-weight:600}
+  .side-card{background:linear-gradient(160deg,var(--panel),var(--bg-soft));border:1px solid var(--line);
+    border-radius:var(--radius);padding:30px}
+  .side-card h4{font-family:'Sora';font-size:.95rem;margin-bottom:18px;color:var(--text)}
+  .kv{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+  .kv:last-child{border-bottom:0}
+  .kv span:first-child{color:var(--faint)}
+  .kv span:last-child{color:var(--text);font-weight:500;text-align:right}
+
+  /* PROJECTS */
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  @media(max-width:820px){.proj-grid{grid-template-columns:1fr}}
+  .proj{position:relative;background:linear-gradient(165deg,rgba(255,255,255,.04),rgba(255,255,255,.012));
+    border:1px solid var(--line);border-radius:var(--radius);padding:30px;overflow:hidden;transition:.3s;
+    display:flex;flex-direction:column}
+  .proj::after{content:"";position:absolute;inset:0;border-radius:var(--radius);padding:1px;
+    background:linear-gradient(135deg,var(--accent),transparent 40%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.3s}
+  .proj:hover{transform:translateY(-5px);border-color:var(--line-strong)}
+  .proj:hover::after{opacity:1}
+  .proj.feat{grid-column:span 2}
+  @media(max-width:820px){.proj.feat{grid-column:span 1}}
+  .proj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+  .proj-ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:1.35rem;
+    background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(45,212,191,.15));border:1px solid var(--line-strong)}
+  .proj-tag{font-family:'JetBrains Mono';font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2);
+    border:1px solid var(--line);padding:5px 10px;border-radius:999px}
+  .proj h3{font-family:'Sora';font-size:1.28rem;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+  .proj p{color:var(--muted);font-size:.96rem;margin-bottom:18px;flex:1}
+  .proj .impact{color:var(--text);font-size:.9rem;margin-bottom:18px;padding:12px 14px;border-radius:10px;
+    background:rgba(45,212,191,.06);border-left:2px solid var(--accent-2)}
+  .stack{display:flex;flex-wrap:wrap;gap:8px}
+  .stack span{font-family:'JetBrains Mono';font-size:.74rem;color:var(--muted);background:rgba(255,255,255,.04);
+    border:1px solid var(--line);padding:5px 10px;border-radius:7px}
+
+  /* SKILLS */
+  .skill-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media(max-width:820px){.skill-cols{grid-template-columns:1fr}}
+  .skill-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:.3s}
+  .skill-card:hover{border-color:var(--line-strong);transform:translateY(-4px)}
+  .skill-card .head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .skill-card .head .i{font-size:1.4rem}
+  .skill-card h4{font-family:'Sora';font-size:1.08rem}
+  .skill-card ul{list-style:none}
+  .skill-card li{color:var(--muted);font-size:.93rem;padding:7px 0 7px 20px;position:relative}
+  .skill-card li::before{content:"";position:absolute;left:0;top:14px;width:7px;height:7px;border-radius:2px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+
+  /* TIMELINE */
+  .timeline{position:relative;margin-top:10px}
+  .timeline::before{content:"";position:absolute;left:18px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(var(--accent),var(--accent-2),transparent)}
+  @media(max-width:600px){.timeline::before{left:13px}}
+  .tl-item{position:relative;padding-left:62px;margin-bottom:42px}
+  .tl-item:last-child{margin-bottom:0}
+  @media(max-width:600px){.tl-item{padding-left:46px}}
+  .tl-node{position:absolute;left:8px;top:4px;width:22px;height:22px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--accent);display:grid;place-items:center}
+  @media(max-width:600px){.tl-node{left:3px}}
+  .tl-node::after{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+  .tl-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;margin-bottom:4px}
+  .tl-co{font-family:'Sora';font-weight:700;font-size:1.28rem;letter-spacing:-.01em}
+  .tl-date{font-family:'JetBrains Mono';font-size:.78rem;color:var(--accent-2);white-space:nowrap}
+  .tl-role{color:var(--text);font-weight:600;font-size:1rem;margin-bottom:6px}
+  .tl-meta{color:var(--faint);font-size:.86rem;margin-bottom:14px}
+  .tl-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .tl-badge{font-size:.76rem;font-weight:500;padding:5px 11px;border-radius:999px;
+    background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.3);color:#cdbcff}
+  .tl-badge.exit{background:rgba(45,212,191,.12);border-color:rgba(45,212,191,.35);color:#9af2e4}
+  .tl-list{list-style:none}
+  .tl-list li{color:var(--muted);font-size:.95rem;padding:5px 0 5px 20px;position:relative}
+  .tl-list li::before{content:"→";position:absolute;left:0;color:var(--accent);font-size:.85rem}
+  .tl-list li strong{color:var(--text);font-weight:600}
+
+  /* GITHUB */
+  .gh-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  @media(max-width:700px){.gh-grid{grid-template-columns:1fr}}
+  .gh-tile{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:.3s}
+  .gh-tile:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+  .gh-tile h4{font-family:'Sora';font-size:.98rem;margin-bottom:14px;color:var(--text)}
+  .gh-handle{text-align:center;color:var(--faint);font-family:'JetBrains Mono';font-size:.85rem;margin-top:8px}
+
+  /* CONTACT */
+  .contact-card{background:linear-gradient(150deg,var(--panel-2),var(--bg-soft));border:1px solid var(--line-strong);
+    border-radius:24px;padding:60px 50px;text-align:center;position:relative;overflow:hidden}
+  .contact-card::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle,var(--glow),transparent 65%);top:-180px;left:50%;transform:translateX(-50%);filter:blur(40px)}
+  .contact-card h2{font-family:'Sora';font-weight:700;font-size:clamp(1.8rem,4vw,2.6rem);position:relative;margin-bottom:16px}
+  .contact-card p{color:var(--muted);max-width:480px;margin:0 auto 32px;position:relative}
+  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+
+  footer{padding:44px 0;border-top:1px solid var(--line);text-align:center;color:var(--faint);font-size:.88rem}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(28px);transition:.7s cubic-bezier(.16,.84,.44,1)}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="aura"></div>
+<div class="grain"></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span> Michael&nbsp;Rak</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#github">GitHub</a>
+      <a href="#contact" class="nav-cta">Get in touch</a>
+    </div>
+    <button class="menu-btn" onclick="document.querySelector('.nav-links').style.display = (this.dataset.o ? '' : 'flex'); this.dataset.o = this.dataset.o?'':'1';">☰</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge reveal"><span class="pulse"></span> Open to new opportunities</div>
+    <h1 class="title reveal">People Operations<br>that <span class="grad">ships software.</span></h1>
+    <p class="lede reveal">I'm a People Ops & People Analytics leader who doesn't wait for engineering. I <strong>design, build, and ship the internal tools</strong> my teams need — full-stack apps, live dashboards, and automation that turn manual ops into systems that scale.</p>
+    <div class="hero-cta reveal">
+      <a href="#work" class="btn btn-primary">View my work →</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+    <div class="stats">
+      <div class="stat reveal"><div class="n">10+</div><div class="l">years driving operations</div></div>
+      <div class="stat reveal"><div class="n">1&nbsp;IPO</div><div class="l">+ 3 acquisitions navigated</div></div>
+      <div class="stat reveal"><div class="n">0→1</div><div class="l">production tools, end to end</div></div>
+      <div class="stat reveal"><div class="n">50</div><div class="l">states of compliance built</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <span class="eyebrow reveal">01 — About</span>
+    <h2 class="sec reveal">Operator by title, builder by instinct.</h2>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>I lead People Operations and People Analytics at a fast-scaling consumer wellness company, where I'm responsible for the systems that keep a growing, multi-state team running — onboarding and offboarding, payroll, compliance, headcount analytics, and the day-to-day infrastructure of the people function.</p>
+        <p>What sets my work apart is that I <strong>build the tooling myself.</strong> When a process is manual, brittle, or invisible, I prototype the fix and ship it — from full-stack web apps with real authentication and databases, to live dashboards that pull from our actual systems, to automation that eliminates repetitive work.</p>
+        <p>I'm fluent across the stack a modern operator needs: <strong>SQL and data analysis, full-stack development (Next.js, React, Postgres), product thinking, and AI-assisted engineering.</strong> I care about clean systems, secure handling of sensitive people data, and tools that other people actually want to use.</p>
+        <p>I've done this across the full company spectrum — from sub-50-person, venture-backed startups (Fathom Radiant, Mosey) to a public company (Datto, through its NYSE IPO and $6.2B acquisition) and a hypergrowth brand now inside Unilever. So I'm <strong>equally at home moving fast on a scrappy startup team and operating with the structure and rigor a large corporation demands.</strong></p>
+      </div>
+      <div class="side-card reveal">
+        <h4>At a glance</h4>
+        <div class="kv"><span>Focus</span><span>People Ops · Analytics · HR Tech</span></div>
+        <div class="kv"><span>Builds</span><span>Internal tools &amp; dashboards</span></div>
+        <div class="kv"><span>Stack</span><span>Next.js · React · Postgres</span></div>
+        <div class="kv"><span>Data</span><span>SQL · BigQuery · viz</span></div>
+        <div class="kv"><span>Ships with</span><span>Cloud Run · GCS · GitHub</span></div>
+        <div class="kv"><span>Range</span><span>Seed startups → Unilever</span></div>
+        <div class="kv"><span>Edge</span><span>Ops fluency + engineering</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <span class="eyebrow reveal">02 — Selected work</span>
+    <h2 class="sec reveal">Things I've built.</h2>
+    <p class="sec-intro reveal">A sample of internal products I designed and shipped — each one solving a real operational problem for a real team. Details generalized to protect company data.</p>
+
+    <div class="proj-grid">
+
+      <div class="proj feat reveal">
+        <div class="proj-top">
+          <div class="proj-ico">🗓️</div>
+          <span class="proj-tag">Full-stack app</span>
+        </div>
+        <h3>Company Offsite Planning Platform</h3>
+        <p>A production web app — shipped across ~50 iterations — that runs a 120-person company offsite end to end: RSVPs, dietary &amp; swag, travel, budgets, vendor outreach, an agenda builder and run-of-show, plus auto-grouping that clusters attendees into airport shuttles by flight-arrival windows. Role-based access gives the planning team a full admin suite and every employee a personalized participant portal.</p>
+        <div class="impact">Integrated the <strong>Google Maps Platform (Maps JavaScript + Places APIs)</strong> for hotel/airport autocomplete and an interactive, color-coded POI map; sends <strong>on-brand HTML emails with inline (CID) hero images</strong>; and persists to <strong>Google Cloud Storage with optimistic-concurrency (compare-and-swap) writes</strong>. Deployed on Cloud Run behind Identity-Aware Proxy, with a server-side Places cache + photo proxy to protect the API key.</div>
+        <div class="stack"><span>Next.js</span><span>Cloud Run</span><span>Google Cloud Storage</span><span>Maps / Places API</span><span>Identity-Aware Proxy</span><span>HTML email (CID)</span><span>Notion API</span></div>
+      </div>
+
+      <div class="proj reveal">
+        <div class="proj-top">
+          <div class="proj-ico">📊</div>
+          <span class="proj-tag">Live workspace</span>
+        </div>
+        <h3>Unified People Ops Workspace</h3>
+        <p>A live operator workspace that pulls in real time from six business systems — Slack, email, calendar, Asana, Gusto, and Ramp — into one Inbox / Queue / Team view. It evolved from my own daily dashboard into a shareable, zero-data team app shell any teammate can personalize to their role and connectors, with privacy designed so each viewer only ever sees their own data.</p>
+        <div class="impact">Probed every API for its real response shape, then shipped a self-contained, multi-user tool with strict per-user data access.</div>
+        <div class="stack"><span>MCP integrations</span><span>JavaScript</span><span>Data viz</span><span>Privacy-first</span></div>
+      </div>
+
+      <div class="proj reveal">
+        <div class="proj-top">
+          <div class="proj-ico">💻</div>
+          <span class="proj-tag">React tool</span>
+        </div>
+        <h3>IT Asset Management System</h3>
+        <p>An asset-tracking application for managing company hardware across the org — assignments, lifecycle, and inventory. Diagnosed and fixed a performance bottleneck by pre-compiling ~2,900 lines of JSX so the app loads instantly instead of compiling in the browser.</p>
+        <div class="impact">Cut load time from seconds-of-blank-screen to under one second through a build-time compilation strategy.</div>
+        <div class="stack"><span>React</span><span>JSX</span><span>Performance</span><span>Tailwind</span></div>
+      </div>
+
+      <div class="proj reveal">
+        <div class="proj-top">
+          <div class="proj-ico">📈</div>
+          <span class="proj-tag">Analytics</span>
+        </div>
+        <h3>People Function Scorecard</h3>
+        <p>A metrics scorecard for the people function — headcount, attrition, span of control, and operational health — turning raw HR and payroll data into a leadership-ready view of how the org is performing and where the risks are.</p>
+        <div class="impact">Translated messy operational data into a clear, recurring signal leadership could act on.</div>
+        <div class="stack"><span>SQL</span><span>BigQuery</span><span>Data modeling</span><span>Reporting</span></div>
+      </div>
+
+      <div class="proj reveal">
+        <div class="proj-top">
+          <div class="proj-ico">⚙️</div>
+          <span class="proj-tag">Automation</span>
+        </div>
+        <h3>HR Operations Automation</h3>
+        <p>A body of automation across the employee lifecycle: onboarding and offboarding workflows, offer-letter and document generation, prorated payroll and accrual calculations, time-off policy administration, and spend analysis on contractor costs by month.</p>
+        <div class="impact">Replaced hours of manual, error-prone spreadsheet work with repeatable, auditable processes.</div>
+        <div class="stack"><span>Payroll systems</span><span>Spreadsheets</span><span>Process design</span><span>Compliance</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <span class="eyebrow reveal">03 — Experience</span>
+    <h2 class="sec reveal">A decade of scaling operations.</h2>
+    <p class="sec-intro reveal">I've spent 10+ years as the operational backbone of high-growth companies — through a NYSE IPO, multiple billion-dollar acquisitions, and hypergrowth from startup to scale.</p>
+
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="tl-head"><span class="tl-co">Grüns</span><span class="tl-date">2025 — Present</span></div>
+        <div class="tl-role">People Operations · Remote</div>
+        <div class="tl-meta">Celebrity-backed daily-nutrition brand · $500M valuation · $300M+ revenue by year two, shipping 10M+ gummies a day.</div>
+        <div class="tl-badges"><span class="tl-badge exit">Acquired by Unilever · 2026</span><span class="tl-badge">Hypergrowth</span></div>
+        <ul class="tl-list">
+          <li>Own People Operations &amp; analytics for a fast-scaling, multi-state team through an <strong>acquisition by Unilever</strong>.</li>
+          <li>Run <strong>multi-state payroll, benefits, and leave administration</strong> end to end on Gusto — bi-weekly multi-state payroll, medical/dental/vision enrollment and qualifying-life-event changes, the Carrot family-forming benefit, and full leave-of-absence management via our partner Sparrow, including coordinating state PFML/PFL top-ups so employees receive their full pay.</li>
+          <li>Designed and shipped the internal software stack myself — an <strong>offsite-planning platform, live people-ops dashboards, an IT asset system, lifecycle automation, and people-function scorecards</strong> that turn raw HR and payroll data into leadership-ready signal.</li>
+          <li>Architect and deploy these tools straight to production on <strong>Google Cloud (Cloud Run, BigQuery)</strong> — no engineering team required — and lead AI-native enablement across the company.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="tl-head"><span class="tl-co">Mosey, Inc.</span><span class="tl-date">June 2024 — 2025</span></div>
+        <div class="tl-role">Operations Manager · Remote (Denver, CO)</div>
+        <div class="tl-meta">Venture-backed multi-state compliance platform · $18M Series A (Canaan, Gusto, SemperVirens).</div>
+        <div class="tl-badges"><span class="tl-badge exit">Acquired by Gusto</span><span class="tl-badge">Series A SaaS</span><span class="tl-badge">50-state compliance</span></div>
+        <ul class="tl-list">
+          <li>Architected and scaled <strong>tax-registration workflows across all 50 states</strong> (withholding, unemployment, PFML, workers' comp).</li>
+          <li>Managed a vendor-agent network delivering compliant, on-time execution of client payroll-tax requests.</li>
+          <li>Launched a premium <strong>"managed account" model</strong>, improving ACV, client retention, and time-to-close.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="tl-head"><span class="tl-co">Fathom Radiant</span><span class="tl-date">July 2022 — May 2024</span></div>
+        <div class="tl-role">Operations Manager · Boulder, CO</div>
+        <div class="tl-meta">Deep-tech AI hardware — optical compute for brain-scale neural networks · backed by Khosla Ventures, Founders Fund &amp; Jeff Bezos.</div>
+        <div class="tl-badges"><span class="tl-badge">Frontier deep-tech</span><span class="tl-badge">0→1 ops</span></div>
+        <ul class="tl-list">
+          <li>Led cross-functional oversight across <strong>HR, Finance, IT, and Facilities</strong>; introduced repeatable, cross-departmental SOPs.</li>
+          <li>Owned benefits design and rollout — <strong>ICHRA, FSAs, and equity distribution</strong> — with external partners.</li>
+          <li>Managed corporate compliance, contracts, and IP filings, interfacing with legal for audit readiness.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="tl-head"><span class="tl-co">Datto, Inc.</span><span class="tl-date">Sept 2017 — Mar 2022</span></div>
+        <div class="tl-role">Operations Manager · Norwalk, CT</div>
+        <div class="tl-meta">Cloud / MSP software leader · 1,700+ employees · IPO on the NYSE in 2020 ($594M raised, $4B valuation).</div>
+        <div class="tl-badges"><span class="tl-badge exit">NYSE IPO · 2020</span><span class="tl-badge exit">Acquired by Kaseya · $6.2B</span></div>
+        <ul class="tl-list">
+          <li>Directed IT asset lifecycle and compliance tracking <strong>through Datto's IPO and $6.2B acquisition</strong>, aligning to SOC and SOX protocols.</li>
+          <li>Built scalable internal-operations frameworks and ran cross-team partner meetings to close service gaps.</li>
+          <li>Designed the annual <strong>hardware budget and tech-spend program</strong>, negotiating vendor pricing and recycling buy-back programs to fund future costs.</li>
+          <li>Owned end-to-end onboarding and offboarding — IT, access management, space, and equipment.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <span class="eyebrow reveal">04 — Capabilities</span>
+    <h2 class="sec reveal">What I bring to a team.</h2>
+    <p class="sec-intro reveal">A rare combination: someone who understands the operational problem deeply <em>and</em> can build the technical solution.</p>
+    <div class="skill-cols">
+      <div class="skill-card reveal">
+        <div class="head"><span class="i">👥</span><h4>People Operations</h4></div>
+        <ul>
+          <li>Onboarding &amp; offboarding</li>
+          <li>Multi-state payroll &amp; comp ops</li>
+          <li>Benefits admin — Medical, Dental, STD, Life, 401(k)</li>
+          <li>Leave &amp; family benefits (Sparrow, Carrot)</li>
+          <li>Multi-state compliance</li>
+          <li>HRIS administration (Gusto, Rippling)</li>
+        </ul>
+      </div>
+      <div class="skill-card reveal">
+        <div class="head"><span class="i">📐</span><h4>Data &amp; Analytics</h4></div>
+        <ul>
+          <li>SQL &amp; BigQuery</li>
+          <li>People &amp; operational metrics</li>
+          <li>Dashboards &amp; data viz</li>
+          <li>Reporting &amp; scorecards</li>
+          <li>Data modeling</li>
+        </ul>
+      </div>
+      <div class="skill-card reveal">
+        <div class="head"><span class="i">🛠️</span><h4>Engineering</h4></div>
+        <ul>
+          <li>Next.js, React &amp; TypeScript</li>
+          <li>Google Cloud (Cloud Run, GCS, BigQuery)</li>
+          <li>3rd-party APIs (Google Maps/Places, Notion)</li>
+          <li>Auth, RBAC &amp; SSO (Identity-Aware Proxy, Clerk)</li>
+          <li>CI/CD, GitHub &amp; AI-assisted development</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stack reveal" style="margin-top:34px;justify-content:center">
+      <span>Rippling</span><span>Gusto</span><span>ADP</span><span>Carta</span><span>Guideline</span><span>NetSuite</span><span>SAP</span><span>Ramp</span><span>Bill.com</span><span>Jira</span><span>Notion</span><span>Mosey</span>
+    </div>
+  </div>
+</section>
+
+<section id="github">
+  <div class="wrap">
+    <span class="eyebrow reveal">05 — On GitHub</span>
+    <h2 class="sec reveal">I build in the open.</h2>
+    <p class="sec-intro reveal">Everything you've seen here I designed and shipped myself. Most of my production work lives in private company repos, but here's the stack I build with and where it ships.</p>
+
+    <div class="gh-grid">
+      <div class="gh-tile reveal">
+        <h4>Languages</h4>
+        <div class="stack"><span>TypeScript</span><span>JavaScript</span><span>Python</span><span>SQL</span><span>HTML / CSS</span></div>
+      </div>
+      <div class="gh-tile reveal">
+        <h4>Frameworks</h4>
+        <div class="stack"><span>Next.js</span><span>React</span><span>Node.js</span><span>Tailwind</span></div>
+      </div>
+      <div class="gh-tile reveal">
+        <h4>Cloud &amp; deploy</h4>
+        <div class="stack"><span>Google Cloud Run</span><span>Cloud Storage</span><span>BigQuery</span><span>Vercel</span><span>Netlify</span></div>
+      </div>
+      <div class="gh-tile reveal">
+        <h4>APIs &amp; integrations</h4>
+        <div class="stack"><span>Google Maps / Places</span><span>Notion API</span><span>Slack</span><span>Gusto</span><span>Ramp</span><span>MCP connectors</span></div>
+      </div>
+    </div>
+    <div class="gh-handle reveal">github.com/michaelrak-spec</div>
+    <div style="text-align:center;margin-top:26px" class="reveal">
+      <a href="https://github.com/michaelrak-spec" target="_blank" rel="noopener" class="btn btn-primary">View my GitHub →</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <h2>Let's build something.</h2>
+      <p>Based in the Denver metro and open to remote roles. If you're looking for an operator who can both run the function and ship the tools that make it scale, I'd love to talk.</p>
+      <div class="contact-links">
+        <a href="mailto:rakmj91@gmail.com" class="btn btn-primary">✉️ rakmj91@gmail.com</a>
+        <a href="https://www.linkedin.com/in/michaelrakjr/" target="_blank" rel="noopener" class="btn btn-ghost">in LinkedIn</a>
+        <a href="https://github.com/michaelrak-spec" target="_blank" rel="noopener" class="btn btn-ghost">⌥ GitHub</a>
+        <a href="Michael_Rak_Jr_Resume.pdf" download class="btn btn-ghost">⬇️ Download résumé</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© <span id="yr"></span> Michael Rak · People Operations &amp; Internal Tools · Built from scratch.</div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%6*60)+'ms';io.observe(el)});
+</script>
+</body>
+</html>
